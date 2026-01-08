@@ -2,23 +2,22 @@
 <!DOCTYPE html>
 <html itemscope="" itemtype="http://schema.org/Place" lang="en-JM">
 <head>
-    <title>NCU Campus Map</title>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <meta charset="UTF-8">
     <meta content="initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" name="viewport">
-        <meta content="chrome=1" http-equiv="X-UA-Compatible"> 
-        <meta content="notranslate" name="google">
-         <meta content="origin" name="referrer">
-             <link rel="icon" type="image/x-icon" href="logo image.jpg">
+    <meta content="chrome=1" http-equiv="X-UA-Compatible"> 
+    <meta content="notranslate" name="google">
+    <meta content="origin" name="referrer">
+    <title>NCU Campus Map</title>
+    <link rel="icon" type="image/x-icon" href="logo image.jpg">
     <link rel="shortcut icon" type="image/x-icon" href="logo image.jpg">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <!-- Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.css" />
-  <script src="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.js"></script>
-  <script src="https://kit.fontawesome.com/009d561cd5.js" crossorigin="anonymous"></script>
-
-</head>
+    <script src="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.js"></script>
+    <script src="https://kit.fontawesome.com/009d561cd5.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <script src="assets/js/app.js" defer></script>
+  </head>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -185,7 +184,7 @@
             <button class="dropbtn">☰</button>
             <div class="dropdown-content">
                 <a href="ServiceDirectory.html">Service Directory</a>
-                <a href="Aboutus.html">About Us</a>
+                <a href="AboutUs.html">About Us</a>
                 <a href="Contact.html">Contact Us</a>
                 <!-- Add more menu items as needed -->
             </div>
@@ -223,38 +222,6 @@
         });
     });
 
-document.addEventListener('DOMContentLoaded', function () {
-        var mymap = L.map('map').setView([51.505, -0.09], 13); // Set initial map view
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(mymap);
-
-
-        // Create Locate Me button
-        var locateButton = document.createElement('button');
-        locateButton.id = 'locateUser';
-        locateButton.innerHTML = 'Locate Me';
-
-        // Style the button
-        locateButton.style.position = 'fixed';
-        locateButton.style.bottom = '2px';
-        locateButton.style.left = '10px';
-
-        // Append the button to the map container
-        document.getElementById('map').appendChild(locateButton);
-
-        // Add click event listener to the button
-        locateButton.addEventListener('click', function () {
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(function (position) {
-                    var latlng = L.latLng(position.coords.latitude, position.coords.longitude);
-                    mymap.setView(latlng, 15); // Set map view to user's location
-                }, function (error) {
-                    alert('Error getting your location: ' + error.message);
-                });
-            } else {
-                alert('Geolocation is not supported by this browser.');
-            }
-        });
-    });
     var map;
     var inputElement = document.getElementById('myInput');
     var locateButton = document.getElementById('locateUser');
@@ -316,6 +283,25 @@ document.addEventListener('DOMContentLoaded', function () {
     inputElement.addEventListener('input', function (event) {
       var searchTerm = event.target.value.trim().toLowerCase();
       console.log('Search Term:', searchTerm);
+
+      // Save to search history if not empty
+      if (searchTerm !== '') {
+        var searchHistory = JSON.parse(localStorage.getItem('searchHistory')) || [];
+        // Find matching location names
+        var matchingLocations = locations.filter(location =>
+          location.name.toLowerCase().includes(searchTerm)
+        );
+        
+        // Add exact match to history
+        matchingLocations.forEach(location => {
+          if (!searchHistory.includes(location.name)) {
+            searchHistory.unshift(location.name);
+            searchHistory = searchHistory.slice(0, 10); // Keep only last 10
+          }
+        });
+        
+        localStorage.setItem('searchHistory', JSON.stringify(searchHistory));
+      }
 
       // Filter locations based on the search term
       var filteredLocations = locations.filter(location =>
