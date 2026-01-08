@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Find My Class | Login Page</title>
+    <link rel="icon" href="logo image.jpg" type="image">
+</head>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+        }
+
+        .image-container {
+            flex: 1;
+            display: flex;
+            justify-content: left;
+            align-items: left;
+        }
+
+        .image-container img {
+            width: 100%;
+            max-width: 1000px;
+            max-height: 600px;
+            margin: 0 auto;
+            display: block;
+        }
+
+
+        .container {
+            flex: 1;
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 60px;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            width: 80%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+
+        input[type="submit"] {
+            background: #333;
+            color: #fff;
+            padding: 10px 15px;
+            border: 0;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        .logo {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            width: 25%;
+        }
+    </style>
+</head>
+<body>
+    <div class="image-container">
+        <img src="login image.jpg" alt="Login Image"> 
+    </div>
+    <div class="container">
+        <img src="logo image.jpg" alt="Logo" class="logo">
+        <h2>Login</h2>
+        <form action="Homepage.html" method="get" onsubmit="loginSuccess()">
+            <div class="form-group">
+                <p>Don’t have an account?<a href="Sign Up Page.html">Sign Up</a></p> 
+
+                <label for="username">Username</label><br>
+                <input type="text" id="username" placeholder="Enter Username..." name="username" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label><br>
+                <input type="password" id="password" placeholder="Enter Password..." name="password" required>
+            </div>
+    
+
+<div style="display: flex; align-items: center;">
+    <input type="checkbox" id="remember" name="remember">
+    <label for="remember">Remember me</label>
+    <a href="Verification Page.html" style="margin-left: auto;">Forget Password?</a>
+</div>
+<br>
+
+     <div class="form-group" style="display: flex; justify-content: center;">
+    <input type="submit" value="Login">
+</div>   
+        </form>
+        <script>
+             function loginSuccess() {
+            var usernameInput = document.getElementById('username').value;
+            var validDomain = 'stu.ncu.edu.jm'; 
+
+            if (usernameInput.endsWith('@' + validDomain)) {
+                alert('Welcome to find my class');
+                return true; 
+            } else {
+                alert('Invalid username or password');
+                return false; 
+                            }
+        }
+    </script>
+</body>
+</html>

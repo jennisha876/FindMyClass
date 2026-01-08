@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="logo image.jpg">
+    <title>User Profile</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+        }
+
+        .profile-container {
+            max-width: 1000px;
+            width: 400%;
+            margin: auto;
+            padding: 100px;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            position: relative;
+            text-align: center;
+        }
+.profilepicture {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin: 0 auto;
+  }
+
+  #profilepicture {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; 
+  }
+        
+
+        .user-info h1 {
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .user-info p {
+            color: #555;
+            margin: 5px 0;
+        }
+
+        .go-back {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+        }
+
+        .edit-profile,
+        .go-back,
+        .sign-out {
+            display: inline-block;
+            margin: 10px;
+            padding: 8px 16px;
+            text-decoration: none;
+            color: #3498db;
+            border: 1px solid #3498db;
+            border-radius: 4px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .edit-profile:hover,
+        .go-back:hover,
+        .sign-out:hover {
+            background-color: #3498db;
+            color: #fff;
+        }
+
+        .edit-form {
+            text-align: left;
+            margin-top: 20px;
+            display: none; 
+        }
+
+        .edit-form label {
+            display: block;
+            margin: 10px 0 5px;
+        }
+
+        .edit-form input {
+            width: calc(100% - 20px);
+            padding: 8px;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .edit-form button {
+            background-color: #3498db;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+            .edit-profile {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="profile-container">
+        <span class="go-back" onclick="goBack()">← Go Back</span>
+<div class="profilepicture">
+  <img id="profilepicture" src="login image.jpg" alt="Profile Picture">
+</div>
+        <div class="user-info" id="userInfo">
+            <h1>Jane Lee</h1>
+            <p>Email: Jane.Lee@stu.ncu.edu.jm</p>
+            <p>Gender: Female</p>
+            <p>Occupation: Web Developer</p>
+            <p>Program: Computer Science</p>
+        </div>
+
+        <a href="editprofile.html" class="edit-profile" onclick="toggleForm()">Edit Profile</a>
+
+        <a href="FindMyClass.html" class="sign-out">Sign Out</a>
+    </div>
+
+<script>
+    var updatedUserInfo = localStorage.getItem('updatedUserInfo');
+
+if (updatedUserInfo) {
+    try {
+        var userInfo = JSON.parse(updatedUserInfo);
+
+        if (userInfo && userInfo.name && userInfo.email && userInfo.gender && userInfo.occupation && userInfo.program) {
+            document.getElementById("userInfo").innerHTML = `
+                <h1>${userInfo.name}</h1>
+                <p>Email: ${userInfo.email}</p>
+                <p>Gender: ${userInfo.gender}</p>
+                <p>Occupation: ${userInfo.occupation}</p>
+                <p>Program: ${userInfo.program}</p>
+            `;
+        } else {
+            console.error("Incomplete user information in localStorage");
+        }
+    } catch (error) {
+        console.error("Error parsing user information:", error);
+    }
+}else {
+    console.log("User information not found in localStorage");
+}
+
+    var editedprofilepicture = localStorage.getItem('editedprofilepicture');
+    if (editedprofilepicture) {
+        document.getElementById("profilepicture").src = editedprofilepicture;
+    } else {
+        console.log("Edited profile picture not found in localStorage");
+    }
+
+    function goBack() {
+        window.location.href = "homepage.html"; 
+    }
+</script>
+</body>
+</html>

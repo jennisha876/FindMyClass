@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>About Us</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/009d561cd5.js" crossorigin="anonymous"></script>
+    <style>
+         body {
+            font-family: Arial, sans-serif;
+            background-color: #F0F0F0;
+        }
+        .logo {
+            margin-bottom: 5px;
+        }
+        .navbar{
+            background-color: #D0E7FC;
+        }
+
+        .nav-link{
+            text-decoration: none;
+            color: #000;
+            margin-left: 40px;
+            margin-right: 40px;
+            font-family: Inter;
+            font-size: 20px;
+            font-style: normal;
+            font-weight: 600;
+            line-height: normal;
+            text-align: left;
+        }
+
+        .fa-solid{
+            margin-left: 50px;
+            margin-right: 50px;
+            margin-top: 15px;
+        }
+
+        .fa-bars:hover{
+            background-color: #A3EAEF;
+            padding: 15px;
+        }
+
+        .nav-item:hover{
+            background-color: #A3EAEF;
+        }
+
+    .h1{
+        justify-content: center;
+        color: #000;
+        text-align: center;
+        font-family: Inter;
+        font-size: 32px;
+        font-style: normal;
+        font-weight: 900;
+        line-height: normal;
+        width: 400px;
+        height: 62px;
+        
+    }
+
+    .container{
+        margin-top: 40px;     
+    }
+
+    .title{
+        text-align: center;
+        width: 70%;
+    }
+
+    h4{
+        color: #000;
+        font-family: Inter;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: normal;
+        text-align: left;
+        
+    }
+
+    p{
+        color: #000;
+        font-family: Inter;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+        line-height: 40px;
+        text-align: left;
+    }
+
+    .Contact{
+    padding-top: 30px;
+    width: 100%;
+  }
+
+  .Contact-footer{
+      margin-top: 60px;
+      background-color: #D0E7FC;
+    }
+
+  .Heading2{
+    padding-top: 30px;
+    font-family: 'Crimson Text', serif;
+    font-style: normal;
+    font-weight:bolder;
+    font-size: 30px;
+    line-height: 40px;
+    letter-spacing: 0.075em;
+    text-align: center;
+    color: #1681e6;
+  }
+
+  .Heading3{
+    font-family: 'Crimson Text', serif;
+    font-style: normal;
+    font-weight:bolder;
+    font-size: 30px;
+    line-height: 40px;
+    letter-spacing: 0.075em;
+    text-align: center;
+    color: #1681e6;
+  }
+ 
+  .support{
+    text-decoration: none;
+  }
+
+  .fa-instagram{
+    font-size: 25px;
+    color: #062949;
+    padding: 10px;
+}
+
+.fa-instagram:hover{
+    cursor: pointer;
+    color: #FFFFFF;
+    background: #062949;
+}
+
+.fa-twitter{
+    font-size: 25px;
+    color: #062949;
+    padding: 10px;
+}
+
+.fa-twitter:hover{
+    cursor: pointer;
+    color: #FFFFFF;
+    background: #062949;
+}
+
+.fa-facebook{
+    font-size: 25px;
+    color: #062949;
+    padding: 10px;
+}
+
+.fa-facebook:hover{
+    cursor: pointer;
+    color: #FFFFFF;
+    background: #062949;
+}
+
+ 
+
+.location{
+    font-family: 'Crimson Text', serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 20px;
+    letter-spacing: 0.075em;
+    text-decoration: none;
+    color: #062949;
+}
+
+.email{
+    font-family: 'Crimson Text', serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 10px;
+    letter-spacing: 0.075em;
+    text-decoration: none;
+    color: #062949;
+}
+
+.location1{
+  font-family: 'Crimson Text', serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 20px;
+  letter-spacing: 0.075em;
+  text-decoration: none;
+  color: #062949;
+}
+
+.email1{
+  font-family: 'Crimson Text', serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 10px;
+  letter-spacing: 0.075em;
+  text-decoration: none;
+  color: #062949;
+}
+
+
+.contact2{
+  font-family: 'Crimson Text', serif;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 15px;
+  line-height: 10px;
+  letter-spacing: 0.075em;
+  text-decoration: none;
+  color: black;
+  text-align: left;
+}
+
+.location:hover{
+  cursor: pointer;
+  color: #FFFFFF;
+  background: #062949;
+}
+
+.email:hover{
+  cursor: pointer;
+  color: #FFFFFF;
+  background: #062949;
+}
+
+div ol{
+  list-style-type: none;
+  
+}
+
+div li{
+  text-decoration: none;
+      
+}
+
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar">
+  <div class="container-fluid">
+    <a href="Homepage.html"><img src="logo image.jpg" alt="Logo" style="height: 70px; padding-right: 50px;"></a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="fa-solid fa-bars"></i><span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="Homepage.html">Campus Map</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="ServiceDirectory.html">Service Directory</a>
+        </li> 
+        <li class="nav-item">
+            <a class="nav-link" href="AboutUs.html">About</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="Contact.html">Contact</a>
+          </li>
+          <li class="nav-item">
+            <a href="profile.html"><i class="fa-solid fa-user"></i></a>
+          </li>
+          <li class="nav-item">
+            <a href="information.html"><i class="fa-solid fa-circle-info"></i></a>
+          </li>
+          
+          
+      </ul>
+    </div>
+  </div>
+</nav>
+  
+<div class="container title">
+    <div>
+        <h1>About Us</h1>
+
+        <p>Welcome to "Find My Class," the cutting-edge solution designed 
+            to transform the university experience for students and faculty alike. In the wake 
+            of the global pandemic, the challenges faced by university communities have become
+             more pronounced than ever. As we strive to return to "normal life," our web application 
+             addresses the unique difficulties encountered by university students, particularly those
+              who are foreign to the campus environment.</p>
+         
+        <h3>Our Mission</h3>
+        <p>At "Find My Class," our mission is to simplify campus life and enhance 
+            the university experience for all. We understand the struggles of navigating a 
+            large and complex university campus, especially during these challenging times. 
+            Our application is a holistic
+             solution aimed at providing seamless navigation and access to essential campus services.
+        </p>
+
+        <h3>Key Features</h3>
+        <div class="container text-left">
+            <div class="row">
+              <div class="col">
+                <h4>Interactive Campus Map:</h4>
+        <p>
+
+            1. Easily view your campus map. <br>
+            2. Search for specific buildings or locations.</p>
+            <h4>Service Directory:</h4>
+            <p>1. Access comprehensive information on academic resources. <br>
+                2. Explore dining options and cafeteria hours. <br>
+                3. Stay updated on event schedules and campus activities.</p>
+              </div>
+              <div class="col">
+                <h4> Personalized Experience:</h4>
+                <p>1. Create user profiles for a personalized experience. <br>
+                   2. Save favorite locations for quick access.</p>
+              </div>
+            </div>
+        
+</div>
+</div> 
+</div>
+
+<section class="Contact-footer">
+    <div class="container">
+      <div class="row">
+        <div class="col text-center">
+          <a href="/Homepage.html"><img src="logo image.jpg" width="15%"></a>
+          <h2 class="Heading3">Support</h2>
+          <a class="support" href="https://www.ncu.edu.jm/"><p class="contact2">NCU Website</p></a>
+          <a class="support" href="Homepage.html"><p class="contact2">Campus Map</p></a>
+          <a class="support" href="information.html"><p class="contact2">Information</p></a>
+        </div>
+        <div class="col text-center">
+          <h2 class="Heading2">Get Connected</h2> 
+          <a href="https://instagram.com/ncu_jamaica?igshid=M2RkZGJiMzhjOQ=="  target="_blank" >
+              <i class="fa-brands fa-instagram"></i></a>
+          <a href="https://twitter.com/i/flow/login?redirect_after_login=%2Fncueducation"  target="_blank" >
+            <i class="fa-brands fa-twitter"></i></a>
+          <a href="https://www.facebook.com/ncueducation/"  target="_blank" >
+            <i class="fa-brands fa-facebook"></i></a>
+        </div>
+        <div class="col">
+          <h2 class="Heading2">Contact</h2>
+          <ol>
+              <li><p class="contact2">Location</p> <a class="location" href="https://maps.app.goo.gl/xQf7tyZ719f4Eszs8"  
+              target="_blank" > 
+              <i class="fa-solid fa-location-dot"></i>Northern Caribbean</a> </li> <br>
+              <li> <p class="contact2">Email</p>
+                <a class="email" href="mailto:support@findmyclass.com"  target="_blank" >
+                    <i class="fa-solid fa-envelope"></i>support@findmyclass.com</a>
+                
+      </ol>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</body>
+</html>

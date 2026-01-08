@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Contact Us</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/009d561cd5.js" crossorigin="anonymous"></script>
+   
+    <style>
+         body {
+            font-family: Arial, sans-serif;
+            background-color: #F0F0F0;
+        }
+        .logo {
+            margin-bottom: 5px;
+        }
+        .navbar{
+            background-color: #D0E7FC;
+        }
+
+        .nav-link{
+            text-decoration: none;
+            color: #000;
+            margin-left: 40px;
+            margin-right: 40px;
+            font-family: Inter;
+            font-size: 20px;
+            font-style: normal;
+            font-weight: 600;
+            line-height: normal;
+            text-align: left;
+        }
+
+        .fa-solid{
+            margin-left: 50px;
+            margin-right: 50px;
+            margin-top: 15px;
+        }
+
+        .fa-bars:hover{
+            background-color: #A3EAEF;
+            padding: 15px;
+        }
+
+        .nav-item:hover{
+            background-color: #A3EAEF;
+        }
+
+    .h1{
+        justify-content: center;
+        color: #000;
+        text-align: center;
+        font-family: Inter;
+        font-size: 32px;
+        font-style: normal;
+        font-weight: 900;
+        line-height: normal;
+        width: 400px;
+        height: 62px;
+        
+    }
+
+    h5{
+        color: #000;
+        text-align: center;
+        font-family: Inter;
+        font-size: 24px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: normal;
+        width: 200px;
+        height: 40px;
+        border-radius: 15px;
+        background: #A3CBEF;
+        padding-top: 5px;
+        margin-bottom: 30px;
+    }
+
+    h3{
+        color: #000;
+        text-align: left;
+        font-family: Inter;
+        font-size: 20px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: normal;
+    }
+
+    .h32{
+      color: #000;
+        text-align: center;
+        font-family: Inter;
+        font-size: 24px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: normal;
+        width: 200px;
+        height: 40px;
+        border-radius: 15px;
+        background: #A3EAEF;
+        padding-top: 5px;
+        margin-bottom: 30px;
+    }
+    
+
+    .container{
+        margin-top: 40px;     
+    }
+
+    .title{
+        text-align: center;
+    }
+
+    h4{
+        color: #000;
+        font-family: Inter;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: normal;
+        text-align: left;
+        
+    }
+
+    p{
+        color: #000;
+        font-family: Inter;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+        text-align: left;
+    }
+
+    .contactform{
+        width: 500px;
+        height: 500px;
+        border-radius: 15px;
+        border: 1px solid rgba(0, 0, 0, 0.47);
+        background: #FFF;
+        box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+        margin: 20px;
+        padding-left: 40px;
+        padding-top: 40px;
+        margin-top: 100px;
+        margin-left: 450px ;
+    }
+
+    form{
+      display: flex;
+      flex-direction: column;
+      padding: 20px 40px;
+      color: #000;
+      font-family: Inter;
+    }
+
+
+    form button{
+      padding: 15px;
+      background-color: #A3EAEF;
+      border: 0;
+      outline: none;
+      color: #000;
+        font-family: Inter;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+        width: 150px;
+        align-self: center;
+    }
+
+    .Contact{
+    padding-top: 30px;
+    width: 100%;
+  }
+
+  .Contact-footer{
+      margin-top: 60px;
+      background-color: #D0E7FC;
+    }
+
+  .Heading2{
+    padding-top: 30px;
+    font-family: 'Crimson Text', serif;
+    font-style: normal;
+    font-weight:bolder;
+    font-size: 30px;
+    line-height: 40px;
+    letter-spacing: 0.075em;
+    text-align: center;
+    color: #1681e6;
+  }
+
+  .Heading3{
+    font-family: 'Crimson Text', serif;
+    font-style: normal;
+    font-weight:bolder;
+    font-size: 30px;
+    line-height: 40px;
+    letter-spacing: 0.075em;
+    text-align: center;
+    color: #1681e6;
+  }
+ 
+  .support{
+    text-decoration: none;
+  }
+
+  .fa-instagram{
+    font-size: 25px;
+    color: #062949;
+    padding: 10px;
+}
+
+.fa-instagram:hover{
+    cursor: pointer;
+    color: #FFFFFF;
+    background: #062949;
+}
+
+.fa-twitter{
+    font-size: 25px;
+    color: #062949;
+    padding: 10px;
+}
+
+.fa-twitter:hover{
+    cursor: pointer;
+    color: #FFFFFF;
+    background: #062949;
+}
+
+.fa-facebook{
+    font-size: 25px;
+    color: #062949;
+    padding: 10px;
+}
+
+.fa-facebook:hover{
+    cursor: pointer;
+    color: #FFFFFF;
+    background: #062949;
+}
+
+ 
+
+.location{
+    font-family: 'Crimson Text', serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 20px;
+    letter-spacing: 0.075em;
+    text-decoration: none;
+    color: #062949;
+}
+
+.email{
+    font-family: 'Crimson Text', serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 10px;
+    letter-spacing: 0.075em;
+    text-decoration: none;
+    color: #062949;
+}
+
+.location1{
+  font-family: 'Crimson Text', serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 20px;
+  letter-spacing: 0.075em;
+  text-decoration: none;
+  color: #062949;
+}
+
+.email1{
+  font-family: 'Crimson Text', serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 10px;
+  letter-spacing: 0.075em;
+  text-decoration: none;
+  color: #062949;
+}
+
+
+.contact2{
+  font-family: 'Crimson Text', serif;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 15px;
+  line-height: 10px;
+  letter-spacing: 0.075em;
+  text-decoration: none;
+  color: black;
+  text-align: left;
+}
+
+.location:hover{
+  cursor: pointer;
+  color: #FFFFFF;
+  background: #062949;
+}
+
+.email:hover{
+  cursor: pointer;
+  color: #FFFFFF;
+  background: #062949;
+}
+
+div ol{
+  list-style-type: none;
+  
+}
+
+div li{
+  text-decoration: none;
+      
+}
+
+
+
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar">
+  <div class="container-fluid">
+    <a href="Homepage.html"><img src="logo image.jpg" alt="Logo" style="height: 70px; padding-right: 50px;"></a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="fa-solid fa-bars"></i><span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="Homepage.html">Campus Map</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="ServiceDirectory.html">Service Directory</a>
+        </li> 
+        <li class="nav-item">
+            <a class="nav-link" href="AboutUs.html">About</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="Contact.html">Contact</a>
+          </li>
+          <li class="nav-item">
+            <a href="profile.html"><i class="fa-solid fa-user"></i></a>
+          </li>
+          <li class="nav-item">
+            <a href="information.html"><i class="fa-solid fa-circle-info"></i></a>
+          </li>
+          
+          
+      </ul>
+    </div>
+  </div>
+</nav>
+  
+<div class="container title">
+    <div>
+        <h1>Contact Us</h1>
+        <div class="container text-center">
+            <div class="row">
+              <div class="col">
+                <h5>Main Campus</h5>
+                <h3>Address:</h3>
+                <p>
+                    Northern Caribbean University <br>
+                    Manchester Rd. <br>
+                    Mandeville<br>
+                    Manchester<br>
+                    Jamaica<br>
+                    West Indies
+                    </p>
+
+                <h3> 
+                    Telephone:</h3>
+                <p> 1-876-618-1652 <br>
+                    1-876-963-7000/7400<br>
+                    1-876-962-0075 (Fax)</p>
+                 
+                    
+                <h3>Email:</h3>
+                <p>support@findmyclass.com</p>
+              </div>
+              <div class="col-9">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d121439.26773534507!2d-77.4832128!3d17.9798016!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8edb95897b011ce9%3A0xccc9afeef93177c1!2sNorthern%20Caribbean%20University!5e0!3m2!1sen!2sjm!4v1701639489380!5m2!1sen!2sjm" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+              </div>
+            </div>
+
+     </div>       
+</div>
+</div> 
+<div class="container contactform">
+  <h5 class="h32">Contact Form</h5>
+  <h3 >Send us your concerns and feedback</h3>
+  <form action="https://formsubmit.co/info.findmyclass@gmail.com" method="GET">
+    <input type="text" name= "Name" placeholder="Fullname" required> <br><br>
+    <input type="email" name= "Email" placeholder="Email" required> <br><br>
+    <textarea name="Message" placeholder="Type your feedback or concerns" required></textarea> <br><br>
+    <button type="submit">Send</button>
+  </form>
+
+  <!---<script src="https://smtpjs.com/v3/smtp.js"></script>
+  <script>
+    function sendEmail(){
+      Email.send({
+    Host : "smtp.outlook.com",
+    Username : "forumfindmyclass@outlook.com",
+    Password : "forum@findmyclass",
+    To : 'info.findmyclass@gmail.com',
+    From : document.getElementById("email").value,
+    Subject : "New Contact Form",
+    Body : "Name: " + document.getElementsByName("name").value
+    + "<br> Email: " + document.getElementsByName("email").value
+    + "<br> Message: " + document.getElementsByName("message").value
+}).then(
+  message => alert("Message Sent Successfully")
+);
+    }
+  </script>-->
+
+</div>
+<section class="Contact-footer">
+    <div class="container">
+      <div class="row">
+        <div class="col text-center">
+          <a href="/Homepage.html"><img src="logo image.jpg" width="15%"></a>
+          <h2 class="Heading3">Support</h2>
+          <a class="support" href="https://www.ncu.edu.jm/"><p class="contact2">NCU Website</p></a>
+          <a class="support" href="Homepage.html"><p class="contact2">Campus Map</p></a>
+          <a class="support" href="information.html"><p class="contact2">Information</p></a>
+        </div>
+        <div class="col text-center">
+          <h2 class="Heading2">Get Connected</h2> 
+          <a href="https://instagram.com/ncu_jamaica?igshid=M2RkZGJiMzhjOQ=="  target="_blank" >
+              <i class="fa-brands fa-instagram"></i></a>
+          <a href="https://twitter.com/i/flow/login?redirect_after_login=%2Fncueducation"  target="_blank" >
+            <i class="fa-brands fa-twitter"></i></a>
+          <a href="https://www.facebook.com/ncueducation/"  target="_blank" >
+            <i class="fa-brands fa-facebook"></i></a>
+        </div>
+        <div class="col">
+          <h2 class="Heading2">Contact</h2>
+          <ol>
+              <li><p class="contact2">Location</p> <a class="location" href="https://maps.app.goo.gl/xQf7tyZ719f4Eszs8"  
+              target="_blank" > 
+              <i class="fa-solid fa-location-dot"></i>Northern Caribbean</a> </li> <br>
+              <li> <p class="contact2">Email</p>
+                <a class="email" href="mailto:support@findmyclass.com"  target="_blank" >
+                    <i class="fa-solid fa-envelope"></i>support@findmyclass.com</a>
+      </ol>
+        </div>
+      </div>
+    </div>
+  </section>
+</body>
+</html>

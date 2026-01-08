@@ -1,0 +1,361 @@
+<!--This project was done by; Jennisha Smith, Krisan Spencer, Kristal Spencer, Shani Parchment, Jason Samuels-->
+<!DOCTYPE html>
+<html itemscope="" itemtype="http://schema.org/Place" lang="en-JM">
+<head>
+    <title>NCU Campus Map</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <meta content="initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" name="viewport">
+        <meta content="chrome=1" http-equiv="X-UA-Compatible"> 
+        <meta content="notranslate" name="google">
+         <meta content="origin" name="referrer">
+             <link rel="icon" type="image/x-icon" href="logo image.jpg">
+    <link rel="shortcut icon" type="image/x-icon" href="logo image.jpg">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.css" />
+  <script src="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.js"></script>
+  <script src="https://kit.fontawesome.com/009d561cd5.js" crossorigin="anonymous"></script>
+
+</head>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .logo {
+            margin-bottom: 5px;
+        }
+
+
+        .sidebar {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 120px;
+            background-color: #f8f9fa;
+            padding: 20px;
+            overflow-y: auto;
+            margin-right: 10px;
+            }
+
+        .dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+        .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 80px;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+    z-index: 1;
+}
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #f1f1f1;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        .ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            display: block;
+        }
+
+        .ul li {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+         .ul li a{
+            display: block;
+            margin-bottom: 10px;
+            align-content: center;
+        }
+
+        .ul li button {
+            padding: 10px;
+            font-size: 18px;
+            border: none;
+            background-color: #f6f6f6;
+            width: 10px;
+        }
+
+        .ul li button:hover {
+            background-color: #eee;
+        }
+
+        .search-container {
+            position: relative;
+            width: 300px;
+        }
+
+        #myInput {
+            width: 100%;
+            font-size: 16px;
+            padding: 12px 20px 12px 40px;
+            border: 1px solid #ddd;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        #locateUser {
+            position: fixed;
+            bottom: 2px;
+            left: 50px;
+        }
+
+        #profile {
+            float: right;
+            width: 50px;
+            height: 50px;
+            background: #ddd;
+            border-radius: 50%;
+            line-height: 50px;
+            text-align: center;
+            margin: 10px;
+        }
+
+        #map {
+    height: 500px;
+    width: 91%; 
+    float: right;
+    margin-right: 3px; 
+}
+    </style>
+</head>
+
+<body>
+    
+             <div id="navbar">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            
+            <div class="container" style="display: flex; align-items: center; margin-left: 150px;">
+                <div style="position: relative; display: inline-block;">
+    <input type="text" id="myInput" placeholder="Search for locations.." style="padding-left: 30px;">
+    <div style="position: absolute; left: 10px; top: 50%; transform: translateY(-50%);">🔍</div>
+</div>
+                <button onclick="showLocations(['Sorenson Hall','Food place'])" type="button"
+                    class="btn btn-success" style="margin-left: 10px;">Food and Beverages</button>
+                <button onclick="showLocations(['Jamaica Hall', 'Cedar Hall', 'Leila Reid Hall'])"
+                    type="button" class="btn btn-success" style="margin-left: 10px;">Dorms/Apt.</button>
+                <button onclick="showLocations(['Student Finance','University Records'])" type="button"
+                    class="btn btn-success" style="margin-left: 10px;">Services</button>
+                <button onclick="showLocations(['Department of Computer Information Science', 'Department of Biology and Natural Sciences'])"
+                    type="button" class="btn btn-success" style="margin-left: 10px;">Departments</button>
+                <a href="profile.html" id="profile" style="margin-left: 20px;">👤</a>
+            </div>
+        </nav>
+    </div>
+
+
+    <div id="map"></div>
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+    <div class="sidebar">
+        <!-- Menu items -->
+        <img src="logo image.jpg" alt="Logo" style="height: 50px;">
+        <br><br><br><br><br><br>
+        <div class="dropdown">
+            <button class="dropbtn">☰</button>
+            <div class="dropdown-content">
+                <a href="ServiceDirectory.html">Service Directory</a>
+                <a href="Aboutus.html">About Us</a>
+                <a href="Contact.html">Contact Us</a>
+                <!-- Add more menu items as needed -->
+            </div>
+        </div>
+        <br><br><br><br><br><br>
+        <a href="Recent.html">🕐</a>
+        <br><br><br><br><br><br>
+        <a href="information.html"><i class="fa-solid fa-circle-info"></i></a>
+         <button id="locateUser" style="position: fixed; bottom: 2px; left: 10px; ">Locate Me</button>
+    </div>
+
+</div>
+    
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <!-- Leaflet JS -->
+     <script src="shared.js"></script>
+
+ 
+    
+<script>
+    $(document).ready(function () {
+        $('.dropbtn').click(function () {
+            $('.dropdown-content').toggle();
+        });
+
+        // Close the dropdown if the user clicks outside of it
+        $(document).click(function (event) {
+            if (!$(event.target).closest('.dropdown').length) {
+                $('.dropdown-content').hide();
+            }
+        });
+    });
+
+document.addEventListener('DOMContentLoaded', function () {
+        var mymap = L.map('map').setView([51.505, -0.09], 13); // Set initial map view
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(mymap);
+
+
+        // Create Locate Me button
+        var locateButton = document.createElement('button');
+        locateButton.id = 'locateUser';
+        locateButton.innerHTML = 'Locate Me';
+
+        // Style the button
+        locateButton.style.position = 'fixed';
+        locateButton.style.bottom = '2px';
+        locateButton.style.left = '10px';
+
+        // Append the button to the map container
+        document.getElementById('map').appendChild(locateButton);
+
+        // Add click event listener to the button
+        locateButton.addEventListener('click', function () {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function (position) {
+                    var latlng = L.latLng(position.coords.latitude, position.coords.longitude);
+                    mymap.setView(latlng, 15); // Set map view to user's location
+                }, function (error) {
+                    alert('Error getting your location: ' + error.message);
+                });
+            } else {
+                alert('Geolocation is not supported by this browser.');
+            }
+        });
+    });
+    var map;
+    var inputElement = document.getElementById('myInput');
+    var locateButton = document.getElementById('locateUser');
+
+    // Create a Leaflet map with OpenStreetMap tiles
+    map = L.map('map').setView([18.016, -77.499], 17);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 35,
+      attribution: 'Map data © <a href="https://openstreetmap.org">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
+    // Array of locations
+    var locations = [
+        { lat: 18.0176051, lng: -77.4989789, name: 'Sorenson Hall'},
+        { lat: 18.0158418, lng: -77.4983106, name: 'Robinson Hall'},
+        { lat: 18.0180623, lng: -77.4995935, name: 'Jamaica Hall'},
+        { lat: 18.0166529, lng: -77.4988458, name: 'Student Finance'},
+        { lat: 18.0150526, lng: -77.4979656, name: 'Cedar Hall'},
+        { lat: 18.0142697, lng: -77.4998876, name: 'Leila Reid Hall'},
+        { lat: 18.0163628, lng: -77.4984582, name: 'Hiram S. Walters Resource Centre'},
+        { lat: 18.0161987, lng: -77.4984454, name: 'Micro Lab'},
+        { lat: 18.0161037, lng: -77.5002281, name: 'Gymnatorium'},
+        { lat: 18.0163255, lng: -77.5002082, name: 'Student Lounge'},
+        { lat: 18.015604, lng: -77.498864, name: 'Department of Computer Information Science'},
+        { lat: 18.0168677, lng: -77.4991768, name: 'Department of Biology and Natural Sciences'},
+        { lat: 18.0166759, lng: -77.499013, name: 'University Records'},
+        { lat: 18.0133389, lng: -77.4969557, name: 'Department of Dental Hygiene'},
+        { lat: 18.0138841, lng: -77.4982426, name: 'NCU Media Group'},
+        { lat: 18.0146957, lng:-77.4975965, name: 'NCU Bookstore'},
+        { lat: 18.0147851, lng:-77.4997443, name: 'Music & Fine Arts Department'},
+        { lat: 18.017105, lng:-77.498931, name: 'Student Services'},
+        { lat: 18.0168052, lng:-77.4993059, name: 'Field View'},
+        
+      // Add more locations as needed
+    ];
+
+    // Function to show locations on the map
+    function showLocations(locationNames) {
+      // Clear existing markers
+      map.eachLayer(function (layer) {
+        if (layer instanceof L.Marker) {
+          map.removeLayer(layer);
+        }
+      });
+
+      locationNames.forEach(name => {
+        // Find the location in the locations array
+        var location = locations.find(location => location.name === name);
+
+        // If the location was found, add a marker to that location with a popup
+        if (location) {
+          L.marker([location.lat, location.lng]).addTo(map)
+            .bindPopup(location.name)
+            .openPopup();
+        }
+      });
+    }
+
+    inputElement.addEventListener('input', function (event) {
+      var searchTerm = event.target.value.trim().toLowerCase();
+      console.log('Search Term:', searchTerm);
+
+      // Filter locations based on the search term
+      var filteredLocations = locations.filter(location =>
+        location.name.toLowerCase().includes(searchTerm)
+      );
+
+      // Show the filtered locations on the map
+      showLocations(filteredLocations.map(location => location.name));
+    });
+
+    // Event listener for the Locate Me button
+    locateButton.addEventListener('click', function () {
+      // Use the Geolocation API to get the user's location
+      navigator.geolocation.getCurrentPosition(function (position) {
+        var userLatLng = L.latLng(position.coords.latitude, position.coords.longitude);
+
+        // Add a marker for the user's location
+        L.marker(userLatLng, { icon: L.divIcon({ className: 'leaflet-div-icon leaflet-div-icon-blue' }) })
+          .addTo(map)
+          .bindPopup('Your Location')
+          .openPopup();
+
+        // Pan the map to the user's location
+        map.panTo(userLatLng);
+
+        var selectedLocation = locations[1]; 
+        if (selectedLocation) {
+          L.Routing.control({
+            waypoints: [
+              L.latLng(position.coords.latitude, position.coords.longitude),
+              L.latLng(selectedLocation.lat, selectedLocation.lng)
+            ],
+            routeWhileDragging: true
+          }).addTo(map);
+        }
+      }, function (error) {
+        alert('Error getting your location: ' + error.message);
+      });
+    });
+  </script>
+</body>
+
+</html>

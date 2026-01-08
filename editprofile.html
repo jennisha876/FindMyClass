@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="logo image.jpg">
+    <link rel="shortcut icon" type="image/x-icon" href="logo image.jpg">
+    <title>Edit Profile</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+            }        
+
+        .edit-form {
+            max-width: 400px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .edit-form label {
+            display: block;
+            margin: 10px 0 5px;
+        }
+
+        .edit-form input {
+            width: calc(100% - 20px);
+            padding: 8px;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .edit-form button {
+            background-color: #3498db;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        
+        #userInfo {
+            text-align: center;
+        }
+
+        #userInfo h1 {
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        #userInfo p {
+            color: #555;
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="edit-form" id="editform">
+        <h1>Edit Profile</h1>
+        
+        <label for="editName">Name:</label>
+        <input type="text" id="editName" placeholder="Enter new name" value="Jane Lee">
+
+        <label for="editEmail">Email:</label>
+        <input type="email" id="editEmail" placeholder="Enter new email" value="Jane.Lee@stu.ncu.edu.jm">
+
+        <label for="editGender">Gender:</label>
+        <input type="text" id="editGender" placeholder="Enter new gender" value="Female">
+
+        <label for="editOccupation">Occupation:</label>
+        <input type="text" id="editOccupation" placeholder="Enter new occupation" value="Web Developer">
+
+        <label for="editProgram">Program of Study:</label>
+        <input type="text" id="editProgram" placeholder="Enter new program of study" value="Computer Science">
+
+        <label for="editedprofilepicture">Profile Picture:</label>
+        <input type="file" id="profilepicture" accept="image/*" onchange="previewImage(event)">
+
+        <button onclick="saveChangesAndRedirect()">Save Changes</button>
+    </div>
+
+    <div id="userInfo">
+    </div>
+
+    <script>
+    function saveChangesAndRedirect() {
+        try {
+            var name = document.getElementById("editName").value;
+            var email = document.getElementById("editEmail").value;
+            var gender = document.getElementById("editGender").value;
+            var occupation = document.getElementById("editOccupation").value;
+            var program = document.getElementById("editProgram").value;
+
+            if (name && email && gender && occupation && program) {
+                var userInfoHTML = `
+                    <h1>${name}</h1>
+                    <p>Email: ${email}</p>
+                    <p>Gender: ${gender}</p>
+                    <p>Occupation: ${occupation}</p>
+                    <p>Program: ${program}</p>
+                `;
+                document.getElementById("userInfo").innerHTML = userInfoHTML;
+
+                var updatedUserInfo = {
+                    name: name,
+                    email: email,
+                    gender: gender,
+                    occupation: occupation,
+                    program: program
+                };
+                localStorage.setItem('updatedUserInfo', JSON.stringify(updatedUserInfo));
+
+                console.log('Saving profile changes...');
+
+                window.location.href = 'profile.html';
+            } else {
+                console.error("Incomplete user information. All fields are required.");
+            }
+        } catch (error) {
+            console.error("Error saving user information:", error);
+        }
+    }
+
+    function previewImage(event) {
+        var fileInput = event.target;
+        var file = fileInput.files[0];
+
+        if (file) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                var profilepicture = document.getElementById('profilepicture');
+                profilepicture.src = e.target.result;
+            };
+
+            reader.readAsDataURL(file);
+        }
+    }
+</script>
+</body>
+</html>
