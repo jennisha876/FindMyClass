@@ -144,7 +144,6 @@
         <a href="Recent.html">🕐</a>
         <br><br><br><br><br><br>
         <a href="information.html"><i class="fa-solid fa-circle-info"></i></a>
-         <button id="locateUser" style="position: fixed; bottom: 2px; left: 10px; ">Locate Me</button>
     </div>
 
     <div style="margin-left: 140px; padding: 20px;">
@@ -153,14 +152,17 @@
          <div style="display: flex; align-items: center; margin-bottom: 20px;">
             <div style="position: relative; display: inline-block;">
                 <input type="text" id="myInput" placeholder="Search.." oninput="updateSearchHistory()" style="padding-left: 30px; padding: 10px 10px 10px 30px; width: 300px; border: 1px solid #ddd; border-radius: 4px;">
-                <div style="position: absolute; left: 10px; top: 50%; transform: translateY(-50%);" onclick="updateSearchHistory()">🔍</div>
+                <div style="position: absolute; left: 10px; top: 50%; transform: translateY(-50%);" onclick="updateSearchHistory()"><i class="fa-solid fa-magnifying-glass"></i></div>
             </div>
-            <a href="profile.html" style="margin-left: 20px; font-size: 24px; text-decoration: none;">👤</a>
+            <a href="profile.html" style="margin-left: 20px; font-size: 24px; text-decoration: none;"><i class="fa-solid fa-user"></i></a>
         </div>
             
         <!-- Display recent searches here -->
-        <div style="background-color: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); max-width: 600px;">
-            <h3 style="margin-top: 0;">Your Recent Searches</h3>
+        <div style="background-color: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); max-width: 700px;">
+            <div style="display:flex; justify-content: space-between; align-items: center;">
+              <h3 style="margin-top: 0;">Your Recent Searches</h3>
+              <button id="clearHistory" class="btn btn-sm btn-outline-danger">Clear History</button>
+            </div>
             <ul id="searchHistory" style="list-style-type: none; padding: 0; margin: 0;">
                 <!-- Search history entries will be dynamically added here -->
             </ul>
@@ -189,39 +191,84 @@
             }
 
             // Function to render search history
-            function renderSearchHistory(searchHistory) {
-                const searchHistoryList = document.getElementById("searchHistory");
-
-                // Clear existing entries
-                searchHistoryList.innerHTML = "";
-
-                if (searchHistory.length === 0) {
-                    searchHistoryList.innerHTML = "<li style='color: #999;'>No recent searches</li>";
+            function renderSearchHistory(list) {
+                const ul = document.getElementById("searchHistory");
+                ul.innerHTML = "";
+                if (!list || list.length === 0) {
+                    ul.innerHTML = "<li style='color:#999;'>No recent searches</li>";
                     return;
                 }
+                list.forEach((item, idx) => {
+                    // Support both V2 objects and legacy strings
+                    const q = typeof item === 'string' ? item : item.q;
+                    const ts = typeof item === 'string' ? null : item.ts;
+                    const li = document.createElement('li');
+                    li.style.display = 'flex';
+                    li.style.alignItems = 'center';
+                    li.style.justifyContent = 'space-between';
+                    li.style.padding = '8px 0';
+                    li.style.borderBottom = '1px solid #eee';
 
-                // Add new entries
-                searchHistory.forEach(entry => {
-                    const listItem = document.createElement("li");
-                    listItem.textContent = entry;
-                    listItem.style.padding = "10px";
-                    listItem.style.borderBottom = "1px solid #ddd";
-                    listItem.style.cursor = "pointer";
-                    
-                    // Add click event to search again
-                    listItem.onclick = function() {
-                        document.getElementById("myInput").value = entry;
-                    };
-                    
-                    searchHistoryList.appendChild(listItem);
+                    const left = document.createElement('div');
+                    const link = document.createElement('a');
+                    link.textContent = q;
+                    link.href = 'Homepage.html?q=' + encodeURIComponent(q);
+                    link.style.textDecoration = 'none';
+                    link.style.color = '#007bff';
+                    left.appendChild(link);
+
+                    if (ts) {
+                      const time = document.createElement('span');
+                      const date = new Date(ts);
+                      time.textContent = ' • ' + date.toLocaleString();
+                      time.style.color = '#777';
+                      time.style.fontSize = '12px';
+                      left.appendChild(time);
+                    }
+
+                    const actions = document.createElement('div');
+                    const del = document.createElement('button');
+                    del.className = 'btn btn-sm btn-outline-secondary';
+                    del.title = 'Remove';
+                    del.innerHTML = '<i class="fa-solid fa-xmark"></i>';
+                    del.onclick = function(){ deleteEntry(q); };
+
+                    actions.appendChild(del);
+                    li.appendChild(left);
+                    li.appendChild(actions);
+                    ul.appendChild(li);
                 });
             }
 
             // Load and display search history on page load
-            window.onload = function() {
-                const searchHistory = JSON.parse(localStorage.getItem('searchHistory')) || [];
-                renderSearchHistory(searchHistory);
-            };
+                        function getHistory() {
+                                try {
+                                    const v2 = JSON.parse(localStorage.getItem('searchHistoryV2')) || [];
+                                    if (v2 && v2.length) return v2;
+                                    const legacy = JSON.parse(localStorage.getItem('searchHistory')) || [];
+                                    return legacy.map(q => ({ q, ts: null }));
+                                } catch(e) { return []; }
+                        }
+
+                        function setHistory(list) {
+                            localStorage.setItem('searchHistoryV2', JSON.stringify(list));
+                        }
+
+                        function deleteEntry(q){
+                            let list = getHistory().filter(item => item.q !== q);
+                            setHistory(list);
+                            renderSearchHistory(list);
+                        }
+
+                        document.getElementById('clearHistory').onclick = function(){
+                            setHistory([]);
+                            renderSearchHistory([]);
+                        };
+
+                        window.onload = function(){
+                            const list = getHistory();
+                            renderSearchHistory(list);
+                        };
         </script>
     </div>
 </body>

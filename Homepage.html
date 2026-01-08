@@ -123,10 +123,23 @@
             transform: translateY(-50%);
         }
 
-        #locateUser {
-            position: fixed;
-            bottom: 2px;
-            left: 50px;
+        /* Map locate control styling (button on map like Google/iOS) */
+        .leaflet-control-locate .locate-btn {
+          display: block;
+          width: 32px;
+          height: 32px;
+          line-height: 32px;
+          text-align: center;
+          font-size: 18px;
+          background: #fff;
+          border: 1px solid #ccc;
+          border-radius: 4px;
+          box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+          color: #007bff;
+          text-decoration: none;
+        }
+        .leaflet-control-locate .locate-btn:hover {
+          background: #f6f6f6;
         }
 
         #profile {
@@ -156,9 +169,9 @@
             
             <div class="container" style="display: flex; align-items: center; margin-left: 150px;">
                 <div style="position: relative; display: inline-block;">
-    <input type="text" id="myInput" placeholder="Search for locations.." style="padding-left: 30px;">
-    <div style="position: absolute; left: 10px; top: 50%; transform: translateY(-50%);">🔍</div>
-</div>
+                <input type="text" id="myInput" placeholder="Search for locations.." style="padding-left: 30px;">
+                <div id="searchGo" style="position: absolute; left: 10px; top: 50%; transform: translateY(-50%); cursor: pointer;" title="Search"><i class="fa-solid fa-magnifying-glass"></i></div>
+              </div>
                 <button onclick="showLocations(['Sorenson Hall','Food place'])" type="button"
                     class="btn btn-success" style="margin-left: 10px;">Food and Beverages</button>
                 <button onclick="showLocations(['Jamaica Hall', 'Cedar Hall', 'Leila Reid Hall'])"
@@ -167,7 +180,7 @@
                     class="btn btn-success" style="margin-left: 10px;">Services</button>
                 <button onclick="showLocations(['Department of Computer Information Science', 'Department of Biology and Natural Sciences'])"
                     type="button" class="btn btn-success" style="margin-left: 10px;">Departments</button>
-                <a href="profile.html" id="profile" style="margin-left: 20px;">👤</a>
+                <a href="profile.html" id="profile" style="margin-left: 20px;"><i class="fa-solid fa-user"></i></a>
             </div>
         </nav>
     </div>
@@ -190,10 +203,10 @@
             </div>
         </div>
         <br><br><br><br><br><br>
-        <a href="Recent.html">🕐</a>
+        <a href="Recent.html"><i class="fa-regular fa-clock"></i></a>
         <br><br><br><br><br><br>
         <a href="information.html"><i class="fa-solid fa-circle-info"></i></a>
-         <button id="locateUser" style="position: fixed; bottom: 2px; left: 10px; ">Locate Me</button>
+        
     </div>
 
 </div>
@@ -204,7 +217,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <!-- Leaflet JS -->
-     <script src="shared.js"></script>
 
  
     
@@ -224,7 +236,7 @@
 
     var map;
     var inputElement = document.getElementById('myInput');
-    var locateButton = document.getElementById('locateUser');
+    var searchGo = document.getElementById('searchGo');
 
     // Create a Leaflet map with OpenStreetMap tiles
     map = L.map('map').setView([18.016, -77.499], 17);
@@ -280,67 +292,74 @@
       });
     }
 
+    // Live filter results while typing (no history commit)
     inputElement.addEventListener('input', function (event) {
       var searchTerm = event.target.value.trim().toLowerCase();
-      console.log('Search Term:', searchTerm);
-
-      // Save to search history if not empty
-      if (searchTerm !== '') {
-        var searchHistory = JSON.parse(localStorage.getItem('searchHistory')) || [];
-        // Find matching location names
-        var matchingLocations = locations.filter(location =>
-          location.name.toLowerCase().includes(searchTerm)
-        );
-        
-        // Add exact match to history
-        matchingLocations.forEach(location => {
-          if (!searchHistory.includes(location.name)) {
-            searchHistory.unshift(location.name);
-            searchHistory = searchHistory.slice(0, 10); // Keep only last 10
-          }
-        });
-        
-        localStorage.setItem('searchHistory', JSON.stringify(searchHistory));
-      }
-
-      // Filter locations based on the search term
       var filteredLocations = locations.filter(location =>
         location.name.toLowerCase().includes(searchTerm)
       );
-
-      // Show the filtered locations on the map
       showLocations(filteredLocations.map(location => location.name));
     });
 
-    // Event listener for the Locate Me button
-    locateButton.addEventListener('click', function () {
-      // Use the Geolocation API to get the user's location
-      navigator.geolocation.getCurrentPosition(function (position) {
-        var userLatLng = L.latLng(position.coords.latitude, position.coords.longitude);
+    // Commit a search: save to history and show results
+    function commitSearch() {
+      var term = inputElement.value.trim();
+      if (!term) return;
+      var historyV2 = [];
+      try { historyV2 = JSON.parse(localStorage.getItem('searchHistoryV2')) || []; } catch(e) {}
+      historyV2.unshift({ q: term, ts: Date.now() });
+      // Dedupe by q, keep latest order
+      const seen = new Set();
+      historyV2 = historyV2.filter(item => {
+        if (seen.has(item.q)) return false; seen.add(item.q); return true;
+      }).slice(0, 200);
+      localStorage.setItem('searchHistoryV2', JSON.stringify(historyV2));
 
-        // Add a marker for the user's location
-        L.marker(userLatLng, { icon: L.divIcon({ className: 'leaflet-div-icon leaflet-div-icon-blue' }) })
-          .addTo(map)
-          .bindPopup('Your Location')
-          .openPopup();
+      var filtered = locations.filter(l => l.name.toLowerCase().includes(term.toLowerCase()));
+      showLocations(filtered.map(l => l.name));
+    }
 
-        // Pan the map to the user's location
-        map.panTo(userLatLng);
-
-        var selectedLocation = locations[1]; 
-        if (selectedLocation) {
-          L.Routing.control({
-            waypoints: [
-              L.latLng(position.coords.latitude, position.coords.longitude),
-              L.latLng(selectedLocation.lat, selectedLocation.lng)
-            ],
-            routeWhileDragging: true
-          }).addTo(map);
-        }
-      }, function (error) {
-        alert('Error getting your location: ' + error.message);
-      });
+    // Enter key commits search
+    inputElement.addEventListener('keydown', function(e){
+      if (e.key === 'Enter') { e.preventDefault(); commitSearch(); }
     });
+    // Click on icon commits search
+    if (searchGo) { searchGo.addEventListener('click', commitSearch); }
+
+    // If a query param ?q=term is present, prefill and commit
+    (function(){
+      var params = new URLSearchParams(window.location.search);
+      var q = params.get('q');
+      if (q) { inputElement.value = q; commitSearch(); }
+    })();
+
+    // Map-embedded Locate control
+    var LocateControl = L.Control.extend({
+      options: { position: 'topleft' },
+      onAdd: function(map){
+        var container = L.DomUtil.create('div', 'leaflet-bar leaflet-control leaflet-control-locate');
+        var btn = L.DomUtil.create('a', 'locate-btn', container);
+        btn.href = '#';
+        btn.title = 'Locate Me';
+        btn.innerHTML = '<i class="fa-solid fa-location-crosshairs"></i>';
+        L.DomEvent.on(btn, 'click', function(e){
+          L.DomEvent.stop(e);
+          if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function(pos){
+              var userLatLng = L.latLng(pos.coords.latitude, pos.coords.longitude);
+              L.marker(userLatLng).addTo(map).bindPopup('Your Location').openPopup();
+              // Accuracy circle
+              L.circle(userLatLng, { radius: pos.coords.accuracy, color: '#007bff', fillColor: '#cfe3ff', fillOpacity: 0.3 }).addTo(map);
+              map.panTo(userLatLng);
+            }, function(err){
+              alert('Error getting your location: ' + err.message);
+            });
+          }
+        });
+        return container;
+      }
+    });
+    map.addControl(new LocateControl());
   </script>
 </body>
 
